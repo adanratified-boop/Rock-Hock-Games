@@ -26,7 +26,7 @@ canvas{display:block;position:fixed;top:0;left:0;z-index:0;}
 .surface-dark{background:#111;border:1.5px solid #2a2a2a;border-radius:16px;color:#fff;}
 
 /* ── AUTH SCREEN ── */
-#auth-screen{background:linear-gradient(135deg,#f8f8fc 0%,#ececf5 100%);}
+#auth-screen{background:linear-gradient(135deg,#f8f8fc 0%,#ececf5 100%);z-index:9999 !important;}
 .auth-logo{font-family:'Orbitron',monospace;font-size:52px;font-weight:900;letter-spacing:3px;color:#111;margin-bottom:4px;}
 .auth-logo span{color:#e94560;}
 .auth-tagline{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:#aaa;margin-bottom:32px;}
@@ -377,13 +377,14 @@ canvas{display:block;position:fixed;top:0;left:0;z-index:0;}
 <div id="auth-screen" class="screen">
   <div class="auth-logo">Rock<span>Hock</span></div>
   <div class="auth-tagline">Multiplayer Block World</div>
+  <div id="fb-status" style="font-size:11px;color:#27ae60;margin-bottom:8px;min-height:14px;"></div>
   <div class="auth-card" id="login-card">
     <h2>Welcome back</h2>
     <div class="desc">Sign in to continue your adventure</div>
     <div class="fld"><label>Email</label><input id="li-email" type="email" placeholder="you@example.com"/></div>
     <div class="fld"><label>Password</label><input id="li-pass" type="password" placeholder="••••••••"/></div>
     <div id="li-err" class="aerr"></div>
-    <button class="abtn" id="li-btn">Sign In</button>
+    <button type="button" class="abtn" id="li-btn">Sign In</button>
     <div class="aswitch">No account? <a id="go-reg">Register here</a></div>
   </div>
   <div class="auth-card hide" id="reg-card">
@@ -393,7 +394,7 @@ canvas{display:block;position:fixed;top:0;left:0;z-index:0;}
     <div class="fld"><label>Email</label><input id="r-email" type="email" placeholder="you@example.com"/></div>
     <div class="fld"><label>Password</label><input id="r-pass" type="password" placeholder="Min 6 characters"/></div>
     <div id="r-err" class="aerr"></div><div id="r-ok" class="aok"></div>
-    <button class="abtn" id="r-btn">Create Account</button>
+    <button type="button" class="abtn" id="r-btn">Create Account</button>
     <div class="aswitch">Have account? <a id="go-login">Sign in</a></div>
   </div>
 </div>
@@ -632,6 +633,18 @@ canvas{display:block;position:fixed;top:0;left:0;z-index:0;}
 // FIREBASE REST
 // ════════════════════════════════════════════
 var FB_BASE='https://rock-hock-default-rtdb.firebaseio.com';
+// Test Firebase connectivity on load
+(function(){
+  var el=document.getElementById('fb-status');
+  if(el)el.textContent='Connecting to server…';
+  fetch(FB_BASE+'/.json?shallow=true')
+    .then(function(r){
+      if(el)el.textContent='';
+    })
+    .catch(function(){
+      if(el){el.textContent='⚠ Server unreachable — check connection';el.style.color='#e94560';}
+    });
+})();
 var FB_AUTH='https://identitytoolkit.googleapis.com/v1/accounts';
 var FB_KEY='AIzaSyDrfShSCGuRtxofLOtdOoO7oJmTTfyAWuM';
 var FB={
@@ -827,38 +840,95 @@ document.getElementById('go-reg').onclick=function(){document.getElementById('lo
 document.getElementById('go-login').onclick=function(){document.getElementById('reg-card').classList.add('hide');document.getElementById('login-card').classList.remove('hide');};
 
 document.getElementById('r-btn').onclick=function(){
-  var name=document.getElementById('r-name').value.trim(),email=document.getElementById('r-email').value.trim(),pass=document.getElementById('r-pass').value;
-  var err=document.getElementById('r-err'),ok=document.getElementById('r-ok');err.textContent='';ok.textContent='';
-  if(!name||name.length<2){err.textContent='Username ≥ 2 chars';return;}
-  if(!email){err.textContent='Enter email';return;}
-  if(!pass||pass.length<6){err.textContent='Password ≥ 6 chars';return;}
-  document.getElementById('r-btn').disabled=true;
+  var name=document.getElementById('r-name').value.trim();
+  var email=document.getElementById('r-email').value.trim();
+  var pass=document.getElementById('r-pass').value;
+  var err=document.getElementById('r-err'),ok=document.getElementById('r-ok');
+  err.textContent='';ok.textContent='';
+  if(!name||name.length<2){err.textContent='Username needs at least 2 characters';return;}
+  if(!email||email.indexOf('@')<0){err.textContent='Enter a valid email address';return;}
+  if(!pass||pass.length<6){err.textContent='Password needs at least 6 characters';return;}
+  var btn=document.getElementById('r-btn');
+  btn.disabled=true;btn.textContent='Creating account…';
   FB.register(email,pass).then(function(res){
-    if(res.error){err.textContent=res.error.message.replace(/_/g,' ');document.getElementById('r-btn').disabled=false;return;}
-    FB.set('profiles/'+res.localId,{username:name,email:email,joinDate:new Date().toISOString().slice(0,10),totalEXP:0,rankScore:0,totalPlaced:0,totalBroken:0,totalSessions:0,coins:0,outfit:Object.assign({},selOutfit),isNew:true}).then(function(){
-      ok.textContent='Account created! Signing you in…';document.getElementById('r-btn').disabled=false;
-      setTimeout(function(){document.getElementById('li-email').value=email;document.getElementById('li-pass').value=pass;document.getElementById('li-btn').click();},800);
+    btn.disabled=false;btn.textContent='Create Account';
+    if(res.error){
+      var msg=res.error.message||'';
+      if(msg.indexOf('EMAIL_EXISTS')>=0)err.textContent='This email is already registered';
+      else if(msg.indexOf('WEAK_PASSWORD')>=0)err.textContent='Password is too weak (min 6 chars)';
+      else if(msg.indexOf('INVALID_EMAIL')>=0)err.textContent='Invalid email address';
+      else err.textContent=msg.replace(/_/g,' ').toLowerCase()||'Registration failed';
+      return;
+    }
+    var profile={username:name,email:email,joinDate:new Date().toISOString().slice(0,10),
+      totalEXP:0,rankScore:0,totalPlaced:0,totalBroken:0,totalSessions:0,coins:0,
+      outfit:Object.assign({},selOutfit),isNew:true};
+    FB.set('profiles/'+res.localId,profile).then(function(){
+      ok.textContent='Account created! Taking you to outfit selection…';
+      setTimeout(function(){
+        // Auto login
+        document.getElementById('li-email').value=email;
+        document.getElementById('li-pass').value=pass;
+        document.getElementById('go-login').click();
+        setTimeout(function(){document.getElementById('li-btn').click();},100);
+      },800);
+    }).catch(function(){
+      err.textContent='Account created but profile save failed. Please sign in.';
+      document.getElementById('go-login').click();
     });
-  }).catch(function(){err.textContent='Network error';document.getElementById('r-btn').disabled=false;});
+  }).catch(function(e){
+    btn.disabled=false;btn.textContent='Create Account';
+    err.textContent='Network error — check your connection';
+  });
 };
 
 document.getElementById('li-btn').onclick=function(){
   var email=document.getElementById('li-email').value.trim(),pass=document.getElementById('li-pass').value;
   var err=document.getElementById('li-err');err.textContent='';
-  if(!email||!pass){err.textContent='Fill all fields';return;}
-  document.getElementById('li-btn').disabled=true;
+  if(!email){err.textContent='Please enter your email';return;}
+  if(!pass){err.textContent='Please enter your password';return;}
+  var btn=document.getElementById('li-btn');
+  btn.disabled=true;btn.textContent='Signing in…';
   FB.login(email,pass).then(function(res){
-    if(res.error){err.textContent=res.error.message.replace(/_/g,' ');document.getElementById('li-btn').disabled=false;return;}
+    btn.disabled=false;btn.textContent='Sign In';
+    if(res.error){
+      var msg=res.error.message||'Login failed';
+      if(msg.indexOf('EMAIL_NOT_FOUND')>=0||msg.indexOf('INVALID_EMAIL')>=0)err.textContent='Email not found';
+      else if(msg.indexOf('INVALID_PASSWORD')>=0||msg.indexOf('INVALID_LOGIN_CREDENTIALS')>=0)err.textContent='Wrong password';
+      else if(msg.indexOf('TOO_MANY_ATTEMPTS')>=0)err.textContent='Too many attempts. Try again later';
+      else err.textContent=msg.replace(/_/g,' ').toLowerCase();
+      return;
+    }
+    err.style.color='#27ae60';err.textContent='Loading profile…';
     FB.get('profiles/'+res.localId).then(function(prof){
-      if(!prof){err.textContent='Profile not found';document.getElementById('li-btn').disabled=false;return;}
-      currentUser={uid:res.localId,email:email,token:res.idToken,username:prof.username,joinDate:prof.joinDate||'Unknown',outfit:prof.outfit||Object.assign({},selOutfit),isNew:prof.isNew||false};
+      err.textContent='';err.style.color='#e94560';
+      if(!prof||typeof prof!=='object'){
+        // Profile missing - create a basic one
+        var newProf={username:email.split('@')[0],email:email,joinDate:new Date().toISOString().slice(0,10),totalEXP:0,rankScore:0,totalPlaced:0,totalBroken:0,totalSessions:0,coins:0,outfit:Object.assign({},selOutfit),isNew:true};
+        FB.set('profiles/'+res.localId,newProf).then(function(){
+          currentUser={uid:res.localId,email:email,token:res.idToken,username:newProf.username,joinDate:newProf.joinDate,outfit:Object.assign({},selOutfit),isNew:true};
+          totalEXP=0;rankScore=0;totalPlaced=0;totalBroken=0;totalSessions=0;coins=0;
+          document.getElementById('auth-screen').classList.add('hide');
+          document.getElementById('outfit-screen').classList.remove('hide');
+          buildOutfitUI();
+        });
+        return;
+      }
+      currentUser={uid:res.localId,email:email,token:res.idToken,username:prof.username||email.split('@')[0],joinDate:prof.joinDate||new Date().toISOString().slice(0,10),outfit:prof.outfit||Object.assign({},selOutfit),isNew:prof.isNew===true};
       totalEXP=prof.totalEXP||0;rankScore=prof.rankScore||0;totalPlaced=prof.totalPlaced||0;totalBroken=prof.totalBroken||0;totalSessions=prof.totalSessions||0;coins=prof.coins||0;
       selOutfit=Object.assign({},currentUser.outfit);
-      document.getElementById('li-btn').disabled=false;
-      if(currentUser.isNew){document.getElementById('auth-screen').classList.add('hide');document.getElementById('outfit-screen').classList.remove('hide');buildOutfitUI();}
-      else showLobby();
-    });
-  }).catch(function(){err.textContent='Network error';document.getElementById('li-btn').disabled=false;});
+      if(currentUser.isNew){
+        document.getElementById('auth-screen').classList.add('hide');
+        document.getElementById('outfit-screen').classList.remove('hide');
+        buildOutfitUI();
+      } else {
+        showLobby();
+      }
+    }).catch(function(e){err.textContent='Failed to load profile. Check connection.';});
+  }).catch(function(e){
+    btn.disabled=false;btn.textContent='Sign In';
+    err.textContent='Network error — check your connection';
+  });
 };
 ['li-email','li-pass'].forEach(function(id){document.getElementById(id).addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('li-btn').click();});});
 

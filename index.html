@@ -271,42 +271,84 @@ canvas{display:block;position:fixed;top:0;left:0;z-index:0;}
 .close-modal-btn:hover{background:#111;color:#fff;border-color:#111;}
 
 /* ── PROFILE MODAL ── */
-#profile-modal{position:fixed;inset:0;z-index:500;background:rgba(255,255,255,0.95);display:none;align-items:center;justify-content:center;}
+/* ── PROFILE MODAL ── */
+#profile-modal{position:fixed;inset:0;z-index:500;background:rgba(240,240,245,0.97);display:none;align-items:center;justify-content:center;overflow-y:auto;padding:20px 0;}
 #profile-modal.on{display:flex;}
-.profile-panel{background:#fff;border:1.5px solid #e0e0e8;border-radius:20px;width:560px;max-width:96vw;max-height:90vh;overflow-y:auto;padding:28px;box-shadow:0 12px 48px rgba(0,0,0,0.1);position:relative;}
-.profile-header{display:flex;gap:16px;align-items:flex-start;margin-bottom:22px;}
-.profile-av-big{width:76px;height:76px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:900;flex-shrink:0;background:#111;color:#fff;position:relative;}
-.profile-av-big .edit-ob{position:absolute;bottom:-6px;right:-6px;background:#111;border:none;border-radius:6px;padding:3px 7px;font-size:9px;font-weight:800;cursor:pointer;color:#fff;}
-.profile-info{}
-.profile-uname{font-size:20px;font-weight:900;color:#111;margin-bottom:2px;}
-.profile-email{font-size:11px;color:#aaa;margin-bottom:6px;}
-.profile-joined{font-size:11px;color:#aaa;}
-.rank-badge-inline{display:inline-flex;align-items:center;gap:5px;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:800;margin-bottom:6px;}
-.level-row{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding:14px;background:#f8f8fc;border-radius:12px;border:1px solid #eee;}
-.level-num{font-family:'Orbitron',monospace;font-size:32px;font-weight:900;color:#111;line-height:1;}
-.level-info{flex:1;}
-.level-label{font-size:10px;color:#aaa;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
-.exp-bar-wrap{height:8px;background:#eee;border-radius:4px;overflow:hidden;}
-.exp-bar-fill{height:100%;background:#111;border-radius:4px;transition:width .6s;}
-.exp-text{font-size:10px;color:#aaa;margin-top:4px;}
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
-.stat-tile{background:#f8f8fc;border:1px solid #eee;border-radius:10px;padding:12px;text-align:center;}
-.stat-tile .sv{font-size:20px;font-weight:900;color:#111;margin-bottom:2px;}
-.stat-tile .sk{font-size:10px;color:#aaa;}
-.rank-section{background:#f8f8fc;border:1px solid #eee;border-radius:12px;padding:14px;margin-bottom:14px;}
-.rank-section h3{font-size:10px;color:#aaa;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;margin-bottom:10px;}
-.rank-tier-row{display:flex;align-items:center;gap:9px;margin-bottom:6px;}
-.rt-icon{font-size:15px;width:22px;text-align:center;}
-.rt-name{font-size:11px;font-weight:700;width:92px;}
-.rt-bar{flex:1;height:5px;background:#eee;border-radius:3px;overflow:hidden;}
-.rt-fill{height:100%;border-radius:3px;transition:width .5s;}
-.rt-score{font-size:10px;color:#aaa;white-space:nowrap;}
-.rt-check{font-size:12px;width:16px;text-align:center;}
-.outfit-preview-row{display:flex;align-items:center;gap:14px;background:#f8f8fc;border:1px solid #eee;border-radius:12px;padding:12px;}
+.profile-panel{background:#fff;border:1.5px solid #e0e0e8;border-radius:24px;width:720px;max-width:96vw;padding:0;box-shadow:0 20px 64px rgba(0,0,0,0.12);position:relative;overflow:hidden;}
+/* Profile hero banner */
+.profile-hero{background:linear-gradient(135deg,#111 0%,#2a2a3a 100%);padding:28px 32px 80px;position:relative;}
+.profile-hero-bg{position:absolute;inset:0;opacity:0.06;background:repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%) 0 0/20px 20px;}
+.profile-body{padding:0 32px 32px;margin-top:-52px;position:relative;}
+.profile-av-wrap{display:flex;align-items:flex-end;gap:18px;margin-bottom:16px;}
+.profile-av-big{width:96px;height:96px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:900;flex-shrink:0;border:4px solid #fff;box-shadow:0 4px 20px rgba(0,0,0,0.15);position:relative;}
+.profile-av-big .edit-ob{position:absolute;bottom:-6px;right:-6px;background:#111;border:2px solid #fff;border-radius:8px;padding:3px 8px;font-size:9px;font-weight:800;cursor:pointer;color:#fff;transition:background .2s;}
+.profile-av-big .edit-ob:hover{background:#333;}
+.profile-av-name-area{flex:1;padding-bottom:4px;}
+.profile-uname{font-size:24px;font-weight:900;color:#111;margin-bottom:3px;}
+.profile-email{font-size:12px;color:#aaa;margin-bottom:8px;}
+.profile-meta-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.rank-badge-inline{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:13px;font-weight:800;}
+.profile-joined{font-size:11px;color:#aaa;display:flex;align-items:center;gap:4px;}
+/* Level bar */
+.level-card{background:#f8f8fc;border:1.5px solid #eee;border-radius:16px;padding:18px 20px;margin-bottom:16px;display:flex;gap:20px;align-items:center;}
+.level-num-big{font-family:'Orbitron',monospace;font-size:44px;font-weight:900;color:#111;line-height:1;flex-shrink:0;}
+.level-details{flex:1;}
+.level-top-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+.level-label-text{font-size:10px;font-weight:800;color:#aaa;letter-spacing:1.5px;text-transform:uppercase;}
+.level-exp-nums{font-size:12px;font-weight:700;color:#888;}
+.exp-bar-wrap{height:10px;background:#eee;border-radius:5px;overflow:hidden;margin-bottom:6px;}
+.exp-bar-fill{height:100%;background:linear-gradient(90deg,#111,#444);border-radius:5px;transition:width .8s cubic-bezier(.4,0,.2,1);}
+.exp-text{font-size:11px;color:#aaa;}
+.next-level-hint{font-size:11px;color:#888;margin-top:2px;}
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.stat-tile{background:#f8f8fc;border:1.5px solid #eee;border-radius:12px;padding:14px;text-align:center;transition:border-color .2s;}
+.stat-tile:hover{border-color:#ddd;}
+.stat-tile .sv{font-size:22px;font-weight:900;color:#111;margin-bottom:3px;}
+.stat-tile .sk{font-size:10px;color:#aaa;font-weight:600;}
+/* Current rank card */
+.current-rank-card{border-radius:16px;padding:20px 22px;margin-bottom:16px;border:2px solid;}
+.crk-top{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+.crk-icon{font-size:42px;line-height:1;}
+.crk-info h3{font-size:18px;font-weight:900;margin-bottom:2px;}
+.crk-info p{font-size:12px;opacity:.7;}
+.crk-progress-label{font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;opacity:.6;margin-bottom:6px;}
+.crk-bar{height:10px;border-radius:5px;overflow:hidden;margin-bottom:8px;}
+.crk-bar-inner{height:100%;border-radius:5px;transition:width .8s;}
+.crk-score-row{display:flex;justify-content:space-between;font-size:11px;font-weight:700;opacity:.7;}
+.crk-next-row{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid rgba(0,0,0,.08);}
+.crk-next-label{font-size:11px;opacity:.6;}
+.crk-next-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:800;background:rgba(0,0,0,.08);}
+.view-all-ranks-btn{width:100%;padding:10px;border:1.5px dashed rgba(0,0,0,.2);border-radius:10px;background:transparent;font-size:12px;font-weight:700;cursor:pointer;margin-top:4px;transition:all .2s;color:inherit;}
+.view-all-ranks-btn:hover{background:rgba(0,0,0,.06);}
+/* Outfit row */
+.outfit-preview-row{display:flex;align-items:center;gap:14px;background:#f8f8fc;border:1.5px solid #eee;border-radius:14px;padding:14px;}
 .outfit-preview-info h3{font-size:13px;font-weight:800;color:#111;margin-bottom:3px;}
 .outfit-preview-info p{font-size:11px;color:#aaa;}
-.change-outfit-btn{padding:7px 14px;background:#111;border:none;border-radius:8px;color:#fff;font-size:11px;font-weight:700;cursor:pointer;transition:background .2s;}
+.change-outfit-btn{padding:8px 16px;background:#111;border:none;border-radius:9px;color:#fff;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s;flex-shrink:0;}
 .change-outfit-btn:hover{background:#333;}
+/* ALL RANKS MODAL */
+#all-ranks-modal{position:fixed;inset:0;z-index:600;background:rgba(240,240,245,.97);display:none;align-items:center;justify-content:center;overflow-y:auto;padding:20px 0;}
+#all-ranks-modal.on{display:flex;}
+.ranks-panel{background:#fff;border:1.5px solid #e0e0e8;border-radius:22px;width:640px;max-width:96vw;padding:28px 30px;box-shadow:0 16px 56px rgba(0,0,0,.1);position:relative;}
+.ranks-panel h2{font-size:20px;font-weight:900;color:#111;margin-bottom:4px;}
+.ranks-panel .rdesc{font-size:12px;color:#aaa;margin-bottom:24px;}
+.rank-group{margin-bottom:20px;}
+.rank-group-title{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.rank-group-icon{font-size:24px;}
+.rank-group-name{font-size:16px;font-weight:900;}
+.rank-group-score{font-size:11px;color:#aaa;margin-left:auto;font-weight:600;}
+.rank-tiers-list{display:flex;flex-direction:column;gap:8px;}
+.rtr{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:11px;border:1.5px solid #eee;background:#fafafa;transition:border-color .2s;}
+.rtr.current-rank{border-width:2px;background:#fff;}
+.rtr:hover{border-color:#ddd;}
+.rtr-num{font-family:'Orbitron',monospace;font-size:13px;font-weight:900;width:18px;text-align:center;color:#ccc;}
+.rtr-label{font-size:13px;font-weight:800;flex:1;}
+.rtr-bar{width:100px;height:5px;background:#eee;border-radius:3px;overflow:hidden;}
+.rtr-bar-fill{height:100%;border-radius:3px;}
+.rtr-score-req{font-size:11px;color:#aaa;font-weight:600;min-width:60px;text-align:right;}
+.rtr-status{font-size:13px;width:20px;text-align:center;}
+.current-rank-tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-left:6px;}
 
 /* ── EXP POPUP ── */
 .exp-popup{position:fixed;z-index:50;pointer-events:none;font-size:14px;font-weight:900;text-shadow:0 2px 8px rgba(0,0,0,0.5);animation:floatup 2s forwards;}
@@ -389,6 +431,7 @@ canvas{display:block;position:fixed;top:0;left:0;z-index:0;}
             <div class="pbar-level" id="pbar-level">Level 1</div>
           </div>
         </div>
+        <button class="nav-btn" id="rank-open-btn" onclick="openAllRanks()">⚔ Ranks</button>
         <button class="nav-btn" id="settings-open-btn">⚙ Settings</button>
         <button class="nav-btn danger" id="logout-btn">Sign Out</button>
       </div>
@@ -412,6 +455,7 @@ canvas{display:block;position:fixed;top:0;left:0;z-index:0;}
       <div class="ga-title" id="ga-title">Session 1 — Game Area</div>
       <div class="ga-actions">
         <button class="nav-btn" id="ga-profile-btn">👤 Profile</button>
+        <button class="nav-btn" onclick="openAllRanks()">⚔ Ranks</button>
         <button class="nav-btn" id="ga-explore-btn">🌍 Free Roam</button>
         <button class="nav-btn" id="ga-back-btn">← Sessions</button>
       </div>
@@ -478,42 +522,97 @@ canvas{display:block;position:fixed;top:0;left:0;z-index:0;}
 </div>
 
 <!-- ═══ PROFILE MODAL ═══ -->
+<!-- ═══ PROFILE MODAL ═══ -->
 <div id="profile-modal">
   <div class="profile-panel">
-    <button class="close-modal-btn" id="close-profile">✕ Close</button>
-    <div class="profile-header">
-      <div class="profile-av-big" id="prof-av-big"><button class="edit-ob" id="edit-outfit-btn">✏</button></div>
-      <div class="profile-info">
-        <div class="profile-uname" id="prof-uname">Player</div>
-        <div class="profile-email" id="prof-email">—</div>
-        <div class="rank-badge-inline" id="prof-rank-badge"></div>
-        <div class="profile-joined" id="prof-joined">Joined: —</div>
+    <!-- Hero Banner -->
+    <div class="profile-hero">
+      <div class="profile-hero-bg"></div>
+      <button class="close-modal-btn" id="close-profile" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:8px;padding:5px 12px;font-size:12px;cursor:pointer;font-weight:700;">✕ Close</button>
+    </div>
+    <!-- Body -->
+    <div class="profile-body">
+      <!-- Avatar + Name -->
+      <div class="profile-av-wrap">
+        <div class="profile-av-big" id="prof-av-big" style="background:#111;color:#fff;">
+          <span id="prof-av-letter">?</span>
+          <button class="edit-ob" id="edit-outfit-btn">✏ Outfit</button>
+        </div>
+        <div class="profile-av-name-area">
+          <div class="profile-uname" id="prof-uname">Player</div>
+          <div class="profile-email" id="prof-email">—</div>
+          <div class="profile-meta-row">
+            <div class="rank-badge-inline" id="prof-rank-badge"></div>
+            <div class="profile-joined" id="prof-joined">📅 —</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Level Card -->
+      <div class="level-card">
+        <div class="level-num-big" id="prof-level">1</div>
+        <div class="level-details">
+          <div class="level-top-row">
+            <span class="level-label-text">Level Progress</span>
+            <span class="level-exp-nums" id="prof-exp-nums">0 / 100 EXP</span>
+          </div>
+          <div class="exp-bar-wrap"><div class="exp-bar-fill" id="prof-exp-bar" style="width:0%"></div></div>
+          <div class="next-level-hint" id="prof-next-hint">Keep playing to level up!</div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-tile"><div class="sv" id="ps-placed">0</div><div class="sk">Blocks Placed</div></div>
+        <div class="stat-tile"><div class="sv" id="ps-broken">0</div><div class="sk">Blocks Broken</div></div>
+        <div class="stat-tile"><div class="sv" id="ps-time">0m</div><div class="sk">Play Time</div></div>
+        <div class="stat-tile"><div class="sv" id="ps-sessions">0</div><div class="sk">Sessions</div></div>
+        <div class="stat-tile"><div class="sv" id="ps-coins">0 🪙</div><div class="sk">Coins</div></div>
+        <div class="stat-tile"><div class="sv" id="ps-rank-score">0</div><div class="sk">Rank Score</div></div>
+      </div>
+
+      <!-- Current Rank Card (dynamic) -->
+      <div class="current-rank-card" id="current-rank-card">
+        <div class="crk-top">
+          <div class="crk-icon" id="crk-icon">🥈</div>
+          <div class="crk-info">
+            <h3 id="crk-name">Silver 1</h3>
+            <p id="crk-desc">Keep earning rank score to advance</p>
+          </div>
+        </div>
+        <div class="crk-progress-label">Progress to next tier</div>
+        <div class="crk-bar" id="crk-bar"><div class="crk-bar-inner" id="crk-bar-inner" style="width:0%"></div></div>
+        <div class="crk-score-row">
+          <span id="crk-score-cur">0 pts</span>
+          <span id="crk-score-next">500 pts needed</span>
+        </div>
+        <div class="crk-next-row" id="crk-next-row">
+          <span class="crk-next-label">Next rank:</span>
+          <span class="crk-next-badge" id="crk-next-badge">Silver 2</span>
+        </div>
+        <button class="view-all-ranks-btn" id="view-all-ranks-btn" onclick="openAllRanks()">⚔ View All Ranks →</button>
+      </div>
+
+      <!-- Outfit Row -->
+      <div class="outfit-preview-row">
+        <canvas id="profile-outfit-canvas" width="70" height="110"></canvas>
+        <div class="outfit-preview-info" style="flex:1">
+          <h3>Current Outfit</h3>
+          <p id="outfit-desc-text">—</p>
+        </div>
+        <button class="change-outfit-btn" id="change-outfit-btn">Change Outfit</button>
       </div>
     </div>
-    <div class="level-row">
-      <div class="level-num" id="prof-level">1</div>
-      <div class="level-info">
-        <div class="level-label">Level · EXP Progress</div>
-        <div class="exp-bar-wrap"><div class="exp-bar-fill" id="prof-exp-bar" style="width:0%"></div></div>
-        <div class="exp-text" id="prof-exp-text">0 / 100 EXP</div>
-      </div>
-    </div>
-    <div class="stats-grid">
-      <div class="stat-tile"><div class="sv" id="ps-placed">0</div><div class="sk">Placed</div></div>
-      <div class="stat-tile"><div class="sv" id="ps-broken">0</div><div class="sk">Broken</div></div>
-      <div class="stat-tile"><div class="sv" id="ps-time">0m</div><div class="sk">Play Time</div></div>
-      <div class="stat-tile"><div class="sv" id="ps-sessions">0</div><div class="sk">Sessions</div></div>
-      <div class="stat-tile"><div class="sv" id="ps-coins">0</div><div class="sk">Coins 🪙</div></div>
-      <div class="stat-tile"><div class="sv" id="ps-rank-score">0</div><div class="sk">Rank Score</div></div>
-    </div>
-    <div class="rank-section"><h3>Rank Ladder</h3><div id="rank-tiers-list"></div></div>
-    <div class="outfit-preview-row">
-      <canvas id="profile-outfit-canvas" width="70" height="110"></canvas>
-      <div class="outfit-preview-info flex-1" style="flex:1">
-        <h3>Current Outfit</h3><p id="outfit-desc-text">—</p>
-      </div>
-      <button class="change-outfit-btn" id="change-outfit-btn">Change</button>
-    </div>
+  </div>
+</div>
+
+<!-- ═══ ALL RANKS MODAL ═══ -->
+<div id="all-ranks-modal">
+  <div class="ranks-panel">
+    <button class="close-modal-btn" id="close-all-ranks" style="position:absolute;top:16px;right:16px;background:#f0f0f5;border:1px solid #e0e0e8;border-radius:8px;padding:5px 12px;font-size:12px;cursor:pointer;font-weight:700;color:#888;">✕ Close</button>
+    <h2>⚔ All Ranks</h2>
+    <div class="rdesc">Earn rank score by playing games (Ranked mode) to climb the ladder</div>
+    <div id="all-ranks-list"></div>
   </div>
 </div>
 
@@ -1366,6 +1465,8 @@ function joinSessionFreeRoam(sid){
 // ════════════════════════════════════════════
 document.getElementById('profile-bar-btn').onclick=openProfile;
 document.getElementById('close-profile').onclick=function(){document.getElementById('profile-modal').classList.remove('on');};
+// Also close all-ranks from escape
+document.addEventListener('keydown',function(e){if(e.code==='Escape'){if(document.getElementById('all-ranks-modal').classList.contains('on')){document.getElementById('all-ranks-modal').classList.remove('on');return;}}});
 document.getElementById('change-outfit-btn').onclick=changeOutfitFromProfile;
 document.getElementById('edit-outfit-btn').onclick=changeOutfitFromProfile;
 function changeOutfitFromProfile(){
@@ -1389,31 +1490,129 @@ function changeOutfitFromProfile(){
 function openProfile(){
   var ri=getRankFromScore(rankScore),li=getLevelFromExp(totalEXP);
   document.getElementById('profile-modal').classList.add('on');
+
+  // Avatar letter
+  var letter=currentUser.username[0].toUpperCase();
+  document.getElementById('prof-av-letter').textContent=letter;
+  document.getElementById('prof-av-big').style.background=ri.color;
+
+  // Hero gradient with rank color
+  var hero=document.querySelector('.profile-hero');
+  if(hero)hero.style.background='linear-gradient(135deg,'+ri.color+' 0%,#111 100%)';
+
+  // Text info
   document.getElementById('prof-uname').textContent=currentUser.username;
   document.getElementById('prof-email').textContent=currentUser.email;
   document.getElementById('prof-joined').textContent='📅 Joined '+currentUser.joinDate;
-  var rb=document.getElementById('prof-rank-badge');rb.textContent=ri.icon+' '+ri.name;rb.style.background=ri.bg;rb.style.color=ri.color;
-  document.getElementById('prof-av-big').style.background='#111';
-  document.getElementById('prof-av-big').childNodes[0].textContent=currentUser.username[0].toUpperCase();
+
+  // Rank badge
+  var rb=document.getElementById('prof-rank-badge');
+  rb.textContent=ri.icon+' '+ri.name;
+  rb.style.background=ri.bg;rb.style.color=ri.color;
+  rb.style.border='1.5px solid '+ri.color+'44';
+
+  // Level
   document.getElementById('prof-level').textContent=li.level;
   var pct=Math.min(100,Math.round(li.current/li.needed*100));
   document.getElementById('prof-exp-bar').style.width=pct+'%';
-  document.getElementById('prof-exp-text').textContent=li.current+' / '+li.needed+' EXP';
-  document.getElementById('ps-placed').textContent=totalPlaced;
-  document.getElementById('ps-broken').textContent=totalBroken;
-  document.getElementById('ps-time').textContent=Math.floor(sessionJoinTime>0?(Date.now()-sessionJoinTime)/60000:0)+'m';
+  document.getElementById('prof-exp-nums').textContent=li.current.toLocaleString()+' / '+li.needed.toLocaleString()+' EXP';
+  var expNeeded=li.needed-li.current;
+  document.getElementById('prof-next-hint').textContent='Need '+expNeeded.toLocaleString()+' more EXP to reach Level '+(li.level+1);
+
+  // Stats
+  document.getElementById('ps-placed').textContent=totalPlaced.toLocaleString();
+  document.getElementById('ps-broken').textContent=totalBroken.toLocaleString();
+  var mins=Math.floor(sessionJoinTime>0?(Date.now()-sessionJoinTime)/60000:0);
+  document.getElementById('ps-time').textContent=mins<60?mins+'m':Math.floor(mins/60)+'h '+( mins%60)+'m';
   document.getElementById('ps-sessions').textContent=totalSessions;
-  document.getElementById('ps-coins').textContent=coins;
-  document.getElementById('ps-rank-score').textContent=rankScore;
-  // Rank tiers
-  var tl=document.getElementById('rank-tiers-list');tl.innerHTML='';
-  RANKS.forEach(function(r){for(var t=1;t<=r.tiers;t++){var needed=r.base+(t-1)*r.perTier;var unlocked=rankScore>=needed;var progress=unlocked?Math.min(100,Math.round((rankScore-needed)/r.perTier*100)):0;var row=document.createElement('div');row.className='rank-tier-row';row.innerHTML='<span class="rt-icon">'+r.icon+'</span><span class="rt-name" style="color:'+(unlocked?r.color:'#ccc')+'">'+r.name+' '+t+'</span><div class="rt-bar"><div class="rt-fill" style="width:'+progress+'%;background:'+r.color+'"></div></div><span class="rt-score">'+needed.toLocaleString()+'</span><span class="rt-check">'+(unlocked?'✅':'🔒')+'</span>';tl.appendChild(row);}});
-  // Outfit
+  document.getElementById('ps-coins').textContent=coins.toLocaleString()+' 🪙';
+  document.getElementById('ps-rank-score').textContent=rankScore.toLocaleString();
+
+  // Current Rank Card — show only the player's current rank + next tier
+  var card=document.getElementById('current-rank-card');
+  card.style.background=ri.bg;card.style.borderColor=ri.color+'55';card.style.color=ri.color;
+  document.getElementById('crk-icon').textContent=ri.icon;
+  document.getElementById('crk-name').textContent=ri.name;
+  document.getElementById('crk-name').style.color=ri.color;
+  // Progress within current tier
+  var tierStart=ri.rank.base+(ri.tier-1)*ri.rank.perTier;
+  var tierEnd=ri.rank.base+ri.tier*ri.rank.perTier;
+  var withinTier=rankScore-tierStart;
+  var tierSize=ri.rank.perTier;
+  var tierPct=Math.min(100,Math.round(withinTier/tierSize*100));
+  var bar=document.getElementById('crk-bar');bar.style.background=ri.color+'22';
+  var barInner=document.getElementById('crk-bar-inner');barInner.style.width=tierPct+'%';barInner.style.background=ri.color;
+  document.getElementById('crk-score-cur').textContent=rankScore.toLocaleString()+' pts';
+  // Check if max rank
+  var isMaxRank=ri.rank.name==='Rage Hunter'&&ri.tier===5;
+  if(isMaxRank){
+    document.getElementById('crk-score-next').textContent='MAX RANK!';
+    document.getElementById('crk-next-row').style.display='none';
+    document.getElementById('crk-desc').textContent='You've reached the highest rank!';
+    barInner.style.width='100%';
+  } else {
+    document.getElementById('crk-score-next').textContent=tierEnd.toLocaleString()+' pts needed';
+    document.getElementById('crk-next-row').style.display='flex';
+    // Next rank name
+    var nextRankInfo=getRankFromScore(tierEnd);
+    document.getElementById('crk-next-badge').textContent=nextRankInfo.icon+' '+nextRankInfo.name;
+    document.getElementById('crk-next-badge').style.background=nextRankInfo.color+'15';
+    document.getElementById('crk-next-badge').style.color=nextRankInfo.color;
+    document.getElementById('crk-desc').textContent='Tier '+ri.tier+'/'+ri.rank.tiers+' — '+(tierSize-withinTier).toLocaleString()+' score to next';
+    document.getElementById('crk-desc').style.color=ri.color+'99';
+  }
+  // Style view-all-ranks button with rank color
+  var vab=document.getElementById('view-all-ranks-btn');
+  vab.style.borderColor=ri.color+'44';vab.style.color=ri.color;
+
+  // Outfit preview
   var oc=document.getElementById('profile-outfit-canvas');drawOutfit(oc,currentUser.outfit||selOutfit,70,110);
   var oi=currentUser.outfit||selOutfit;
-  var sn=SHIRT_COLS.find(function(c){return c.h===oi.shirt;}),pn=PANTS_COLS.find(function(c){return c.h===oi.pants;});
+  var sn=SHIRT_COLS.find(function(x){return x.h===oi.shirt;}),pn=PANTS_COLS.find(function(x){return x.h===oi.pants;});
   document.getElementById('outfit-desc-text').textContent=(sn?sn.n:'?')+' Shirt · '+(pn?pn.n:'?')+' Pants · '+oi.hairStyle;
 }
+
+// ── ALL RANKS MODAL ─────────────────────────────
+function openAllRanks(){
+  // close profile if open
+  document.getElementById('profile-modal').classList.remove('on');
+  var modal=document.getElementById('all-ranks-modal');
+  modal.classList.add('on');
+  var list=document.getElementById('all-ranks-list');list.innerHTML='';
+  var currentRi=getRankFromScore(rankScore);
+
+  RANKS.forEach(function(r){
+    var group=document.createElement('div');group.className='rank-group';
+    var groupTitle=document.createElement('div');groupTitle.className='rank-group-title';
+    var startScore=r.base;var endScore=r.base+r.tiers*r.perTier;
+    groupTitle.innerHTML='<span class="rank-group-icon">'+r.icon+'</span>'+
+      '<span class="rank-group-name" style="color:'+r.color+'">'+r.name+'</span>'+
+      '<span class="rank-group-score">'+startScore.toLocaleString()+' – '+endScore.toLocaleString()+' pts</span>';
+    group.appendChild(groupTitle);
+    var tl=document.createElement('div');tl.className='rank-tiers-list';
+    for(var t=1;t<=r.tiers;t++){
+      var needed=r.base+(t-1)*r.perTier;
+      var nextNeeded=r.base+t*r.perTier;
+      var unlocked=rankScore>=needed;
+      var isCurrentTier=currentRi.rank.name===r.name&&currentRi.tier===t;
+      var progress=unlocked?Math.min(100,Math.round((rankScore-needed)/r.perTier*100)):0;
+      var row=document.createElement('div');row.className='rtr'+(isCurrentTier?' current-rank':'');
+      if(isCurrentTier){row.style.borderColor=r.color;row.style.background=r.bg;}
+      row.innerHTML=
+        '<span class="rtr-num" style="color:'+(unlocked?r.color:'#ddd')+'">'+t+'</span>'+
+        '<span class="rtr-label" style="color:'+(unlocked?r.color:'#ccc')+'">'+
+          r.name+' '+t+
+          (isCurrentTier?'<span class="current-rank-tag" style="background:'+r.color+'22;color:'+r.color+'">YOU</span>':'')+
+        '</span>'+
+        '<div class="rtr-bar"><div class="rtr-bar-fill" style="width:'+progress+'%;background:'+r.color+'"></div></div>'+
+        '<span class="rtr-score-req" style="color:'+(unlocked?r.color:'#ccc')+'">'+needed.toLocaleString()+'</span>'+
+        '<span class="rtr-status">'+(isCurrentTier?'📍':unlocked?'✅':'🔒')+'</span>';
+      tl.appendChild(row);
+    }
+    group.appendChild(tl);list.appendChild(group);
+  });
+}
+document.getElementById('close-all-ranks').onclick=function(){document.getElementById('all-ranks-modal').classList.remove('on');};
 
 // ════════════════════════════════════════════
 // THREE.JS RENDERER + SCENE
